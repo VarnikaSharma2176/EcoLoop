@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaEnvelope, FaLock, FaUserShield } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaLock,
+  FaUser,
+  FaTruck,
+  FaUserShield,
+} from "react-icons/fa";
 import AuthLayout from "../../components/auth/AuthLayout";
 
 function LoginPage() {
@@ -14,91 +20,89 @@ function LoginPage() {
       <form className="space-y-5">
 
         <div>
-          <label className="mb-2 block font-medium">
+          <label className="mb-3 block font-medium">
             Login As
           </label>
 
-          <div className="relative">
-            <FaUserShield className="absolute left-4 top-4 text-gray-400" />
+          <div className="grid grid-cols-3 gap-3">
 
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 py-3 pl-12 pr-4 outline-none focus:border-green-700"
+            <button
+              type="button"
+              onClick={() => setRole("Citizen")}
+              className={`rounded-xl border p-4 text-center transition ${
+                role === "Citizen"
+                  ? "border-green-700 bg-green-100"
+                  : "hover:bg-gray-100"
+              }`}
             >
-              <option>Citizen</option>
-              <option>Collector</option>
-              <option>Administrator</option>
-            </select>
+              <FaUser className="mx-auto mb-2 text-xl" />
+              Citizen
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setRole("Collector")}
+              className={`rounded-xl border p-4 text-center transition ${
+                role === "Collector"
+                  ? "border-green-700 bg-green-100"
+                  : "hover:bg-gray-100"
+              }`}
+            >
+              <FaTruck className="mx-auto mb-2 text-xl" />
+              Collector
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setRole("Administrator")}
+              className={`rounded-xl border p-4 text-center transition ${
+                role === "Administrator"
+                  ? "border-green-700 bg-green-100"
+                  : "hover:bg-gray-100"
+              }`}
+            >
+              <FaUserShield className="mx-auto mb-2 text-xl" />
+              Admin
+            </button>
+
           </div>
         </div>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Email Address
-          </label>
+        <div className="relative">
+          <FaEnvelope className="absolute left-4 top-4 text-gray-400" />
 
-          <div className="relative">
-            <FaEnvelope className="absolute left-4 top-4 text-gray-400" />
-
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full rounded-lg border border-gray-300 py-3 pl-12 pr-4 outline-none focus:border-green-700"
-            />
-          </div>
+          <input
+            type="email"
+            placeholder="Email Address"
+            className="w-full rounded-lg border py-3 pl-12 pr-4"
+          />
         </div>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Password
-          </label>
+        <div className="relative">
+          <FaLock className="absolute left-4 top-4 text-gray-400" />
 
-          <div className="relative">
-            <FaLock className="absolute left-4 top-4 text-gray-400" />
-
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full rounded-lg border border-gray-300 py-3 pl-12 pr-4 outline-none focus:border-green-700"
-            />
-          </div>
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full rounded-lg border py-3 pl-12 pr-4"
+          />
         </div>
 
-        <div className="flex items-center justify-between">
-
-          <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" />
-            Remember Me
-          </label>
-
-          <button
-            type="button"
-            className="text-sm text-green-700 hover:underline"
-          >
-            Forgot Password?
-          </button>
-
-        </div>
-
-        <button
-          className="w-full rounded-lg bg-green-700 py-3 font-semibold text-white transition hover:bg-green-800"
-        >
+        <button className="w-full rounded-lg bg-green-700 py-3 text-white hover:bg-green-800">
           Login
         </button>
 
         {role === "Citizen" && (
-          <p className="text-center text-gray-600">
+          <p className="text-center">
             New Citizen?{" "}
             <Link
               to="/register"
-              className="font-semibold text-green-700 hover:underline"
+              className="font-semibold text-green-700"
             >
               Register Here
             </Link>
           </p>
         )}
-
       </form>
     </AuthLayout>
   );

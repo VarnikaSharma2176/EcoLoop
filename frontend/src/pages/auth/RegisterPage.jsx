@@ -10,56 +10,75 @@ import {
 import AuthLayout from "../../components/auth/AuthLayout";
 
 function RegisterPage() {
-  const [accountType, setAccountType] = useState("Individual");
+  const [type, setType] = useState("Individual");
 
   return (
     <AuthLayout
       title="Create Citizen Account"
-      subtitle="Register to schedule your e-waste pickups."
+      subtitle="Register to start recycling responsibly."
     >
       <form className="space-y-5">
 
         <div>
-          <label className="mb-2 block font-medium">
+
+          <label className="mb-3 block font-medium">
             Account Type
           </label>
 
-          <select
-            value={accountType}
-            onChange={(e) => setAccountType(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-green-700"
-          >
-            <option>Individual</option>
-            <option>Organization</option>
-          </select>
+          <div className="grid grid-cols-2 gap-4">
+
+            <button
+              type="button"
+              onClick={() => setType("Individual")}
+              className={`rounded-xl border p-5 ${
+                type === "Individual"
+                  ? "border-green-700 bg-green-100"
+                  : "hover:bg-gray-100"
+              }`}
+            >
+              <FaUser className="mx-auto mb-3 text-2xl" />
+              Individual
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setType("Organization")}
+              className={`rounded-xl border p-5 ${
+                type === "Organization"
+                  ? "border-green-700 bg-green-100"
+                  : "hover:bg-gray-100"
+              }`}
+            >
+              <FaBuilding className="mx-auto mb-3 text-2xl" />
+              Organization
+            </button>
+
+          </div>
+
         </div>
 
         <div className="relative">
-          {accountType === "Individual" ? (
-            <FaUser className="absolute left-4 top-4 text-gray-400" />
-          ) : (
-            <FaBuilding className="absolute left-4 top-4 text-gray-400" />
-          )}
+          <FaUser className="absolute left-4 top-4 text-gray-400" />
 
           <input
             type="text"
             placeholder={
-              accountType === "Individual"
+              type === "Individual"
                 ? "Full Name"
                 : "Organization Name"
             }
-            className="w-full rounded-lg border border-gray-300 py-3 pl-12 pr-4 outline-none focus:border-green-700"
+            className="w-full rounded-lg border py-3 pl-12 pr-4"
           />
         </div>
 
-        {accountType === "Organization" && (
+        {type === "Organization" && (
           <div className="relative">
             <FaUser className="absolute left-4 top-4 text-gray-400" />
 
             <input
               type="text"
               placeholder="Contact Person"
-              className="w-full rounded-lg border border-gray-300 py-3 pl-12 pr-4 outline-none focus:border-green-700"
+              className="w-full rounded-lg border py-3 pl-12 pr-4"
             />
           </div>
         )}
@@ -70,7 +89,7 @@ function RegisterPage() {
           <input
             type="email"
             placeholder="Email Address"
-            className="w-full rounded-lg border border-gray-300 py-3 pl-12 pr-4 outline-none focus:border-green-700"
+            className="w-full rounded-lg border py-3 pl-12 pr-4"
           />
         </div>
 
@@ -80,7 +99,7 @@ function RegisterPage() {
           <input
             type="tel"
             placeholder="Phone Number"
-            className="w-full rounded-lg border border-gray-300 py-3 pl-12 pr-4 outline-none focus:border-green-700"
+            className="w-full rounded-lg border py-3 pl-12 pr-4"
           />
         </div>
 
@@ -90,19 +109,19 @@ function RegisterPage() {
           <input
             type="password"
             placeholder="Create Password"
-            className="w-full rounded-lg border border-gray-300 py-3 pl-12 pr-4 outline-none focus:border-green-700"
+            className="w-full rounded-lg border py-3 pl-12 pr-4"
           />
         </div>
 
-        <button className="w-full rounded-lg bg-green-700 py-3 font-semibold text-white hover:bg-green-800">
+        <button className="w-full rounded-lg bg-green-700 py-3 text-white hover:bg-green-800">
           Create Account
         </button>
 
-        <p className="text-center text-gray-600">
+        <p className="text-center">
           Already have an account?{" "}
           <Link
             to="/login"
-            className="font-semibold text-green-700 hover:underline"
+            className="font-semibold text-green-700"
           >
             Login
           </Link>
