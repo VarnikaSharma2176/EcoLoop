@@ -1,16 +1,26 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import HomePage from "./pages/public/HomePage";
+import AboutPage from "./pages/public/AboutPage";
+import KnowledgeHubPage from "./pages/public/KnowledgeHubPage";
+import ContactPage from "./pages/public/ContactPage";
+
+import LoginPage from "./pages/auth/LoginPage";
+import RegisterPage from "./pages/auth/RegisterPage";
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-100">
-      <div className="text-center">
-        <h1 className="text-5xl font-bold text-green-700">
-          EcoLoop
-        </h1>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/knowledge-hub" element={<KnowledgeHubPage />} />
+        <Route path="/contact" element={<ContactPage />} />
 
-        <p className="mt-4 text-lg text-gray-700">
-          Closing the Loop on Electronic Waste.
-        </p>
-      </div>
-    </div>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
