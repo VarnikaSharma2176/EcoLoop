@@ -1,55 +1,16 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const addressSchema = new mongoose.Schema(
   {
-    label: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    recipientName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    phone: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    addressLine1: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    addressLine2: {
-      type: String,
-      default: "",
-      trim: true,
-    },
-
-    city: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    state: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    pincode: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
+    label: { type: String, required: true, trim: true },
+    recipientName: { type: String, required: true, trim: true },
+    phone: { type: String, required: true, trim: true },
+    addressLine1: { type: String, required: true, trim: true },
+    addressLine2: { type: String, default: "" },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    pincode: { type: String, required: true },
     isDefault: {
       type: Boolean,
       default: false,
@@ -71,19 +32,19 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       lowercase: true,
-      trim: true,
     },
 
     phone: {
       type: String,
       required: true,
       unique: true,
-      trim: true,
     },
 
     password: {
       type: String,
       required: true,
+      minlength: 8,
+      select: false,
     },
 
     role: {
@@ -101,7 +62,6 @@ const userSchema = new mongoose.Schema(
     organizationName: {
       type: String,
       default: "",
-      trim: true,
     },
 
     addresses: [addressSchema],
@@ -130,6 +90,19 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) {
+    return;
+  }
+
+  this.password = await bcrypt.hash(this.password, 10);
+
+});
+
+userSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
 const User = mongoose.model("User", userSchema);
 

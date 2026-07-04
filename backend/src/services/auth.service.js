@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import User from "../models/user.model.js";
 
 export const registerUserService = async (userData) => {
@@ -23,13 +22,11 @@ export const registerUserService = async (userData) => {
     throw new Error("Phone number already registered.");
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-
   const user = await User.create({
     fullName,
     email,
     phone,
-    password: hashedPassword,
+    password,
     accountType,
     organizationName:
       accountType === "organization"
