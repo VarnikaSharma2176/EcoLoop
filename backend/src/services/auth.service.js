@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import generateToken from "../utils/generateToken.js";
 
 export const registerUserService = async (userData) => {
   const {
@@ -29,10 +30,29 @@ export const registerUserService = async (userData) => {
     password,
     accountType,
     organizationName:
-      accountType === "organization"
-        ? organizationName
-        : "",
+      accountType === "organization" ? organizationName : "",
   });
 
   return user;
+};
+
+export const loginUserService = async ({ email, password }) => {
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user) {
+    throw new Error("Invalid email or password.");
+  }
+
+  const isMatch = await user.comparePassword(password);
+
+  if (!isMatch) {
+    throw new Error("Invalid email or password.");
+  }
+
+  const token = generateToken(user._id, user.role);
+
+  return {
+    token,
+    user,
+  };
 };
