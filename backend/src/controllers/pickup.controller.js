@@ -2,6 +2,7 @@ import {
   createPickupService,
   getMyPickupsService,
   getPickupByIdService,
+  updatePickupStatusService,
 } from "../services/pickup.service.js";
 
 export const createPickup = async (req, res) => {
@@ -62,6 +63,29 @@ export const getPickupById = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
+      success: false,
+      message: error.message,
+      errors: [],
+    });
+  }
+};
+
+export const updatePickupStatus = async (req, res) => {
+  try {
+    const pickup = await updatePickupStatusService(
+      req.params.id,
+      req.body.status,
+      req.body.note,
+      req.user._id
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Pickup status updated successfully.",
+      data: pickup,
+    });
+  } catch (error) {
+    res.status(400).json({
       success: false,
       message: error.message,
       errors: [],
