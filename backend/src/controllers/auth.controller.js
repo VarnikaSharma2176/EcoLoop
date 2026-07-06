@@ -2,9 +2,14 @@ import {
   registerUserService,
   loginUserService,
 } from "../services/auth.service.js";
+import {
+  validateRegister,
+  validateLogin,
+} from "../validators/auth.validator.js";
 
 export const registerUser = async (req, res) => {
   try {
+    validateRegister(req.body);
     const user = await registerUserService(req.body);
 
     res.status(201).json({
@@ -28,6 +33,7 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
+    validateLogin(req.body);
     const { token, user } = await loginUserService(req.body);
 
     res.status(200).json({
