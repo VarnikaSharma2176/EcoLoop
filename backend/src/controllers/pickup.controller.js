@@ -3,6 +3,8 @@ import {
   getMyPickupsService,
   getPickupByIdService,
   updatePickupStatusService,
+  getAssignedPickupsService,
+  assignCollectorService,
 } from "../services/pickup.service.js";
 
 export const createPickup = async (req, res) => {
@@ -82,6 +84,46 @@ export const updatePickupStatus = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Pickup status updated successfully.",
+      data: pickup,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+      errors: [],
+    });
+  }
+};
+
+export const getAssignedPickups = async (req, res) => {
+  try {
+    const pickups = await getAssignedPickupsService(req.user._id);
+
+    res.status(200).json({
+      success: true,
+      message: "Assigned pickups fetched successfully.",
+      data: pickups,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      errors: [],
+    });
+  }
+};
+
+export const assignCollector = async (req, res) => {
+  try {
+    const pickup = await assignCollectorService(
+      req.params.id,
+      req.body.collectorId,
+      req.user._id
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Collector assigned successfully.",
       data: pickup,
     });
   } catch (error) {

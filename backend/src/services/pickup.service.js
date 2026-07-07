@@ -102,3 +102,37 @@ export const updatePickupStatusService = async (
 
   return pickup;
 };
+
+export const getAssignedPickupsService = async (collectorId) => {
+  return Pickup.find({
+    collector: collectorId,
+  })
+    .populate("citizen", "fullName email phone")
+    .populate("items.category", "name icon")
+    .sort({ createdAt: -1 });
+};
+
+export const assignCollectorService = async (
+  pickupId,
+  collectorId,
+  adminId
+) => {
+  const pickup = await Pickup.findById(pickupId);
+
+  if (!pickup) {
+    throw new Error("Pickup not found.");
+  }
+
+  pickup.collector = collectorId;
+  pickup.status = "Assigned";
+
+  pickup.timeline.push({
+    status: "Assigned",
+    note: "Collector assigned.",
+    updatedBy: adminId,
+  });
+
+  await pickup.save();
+
+  return pickup;
+};
