@@ -7,6 +7,7 @@ import PublicRoute from "./PublicRoute";
 
 import LandingPage from "../pages/public/LandingPage";
 import LoginPage from "../pages/auth/LoginPage";
+import RegisterPage from "../pages/auth/RegisterPage";
 
 const Placeholder = ({ title }) => (
   <div
@@ -47,15 +48,15 @@ const AppRoutes = () => {
 />
 
       <Route
-        path="/register"
-        element={
-          <PublicRoute>
-            <PublicLayout>
-              <Placeholder title="Register Page" />
-            </PublicLayout>
-          </PublicRoute>
-        }
-      />
+  path="/register"
+  element={
+    <PublicRoute>
+      <PublicLayout>
+        <RegisterPage />
+      </PublicLayout>
+    </PublicRoute>
+  }
+/>
 
       <Route
         path="/knowledge"
